@@ -37,5 +37,14 @@ public class EmployeeController {
         return ResponseEntity.ok(employee);
     }
 
+    @PutMapping("/empleados/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee detailEmployee){
+        Employee employee = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No existe el empleado con el id : " +id));
+        employee.setName(detailEmployee.getName());//llamo la funcion setName para que setee el nombre obtenido del name de detailEmployee creado de Employee
+        employee.setLastName(detailEmployee.getLastName());
+        employee.setEmail(detailEmployee.getEmail());
 
+        Employee updatedEmployee = repository.save(employee);
+        return ResponseEntity.ok(updatedEmployee);
+    }
 }
